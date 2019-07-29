@@ -1,0 +1,66 @@
+- hosts: master_ip, slaves
+  tasks:
+       - get_url:
+             url: "ftp://192.168.43.64/pub/hadoop-1.2.1-1.x86_64.rpm"
+             dest: "/root/hadoop-1.2.1-1.x86_64.rpm"
+
+       - get_url:
+             url: "ftp://192.168.43.64/pub/jdk-8u171-linux-x64.rpm"
+             dest: "/root/jdk-8u171-linux-x64.rpm"
+       - command: "rpm -ivh /root/hadoop-1.2.1-1.x86_64.rpm"
+       - command: "rpm -ivh /root/jdk-8u171-linux-x64.rpm"
+    
+       - lineinfile:
+             path: "/root/.bashrc"
+             line: "export JAVA_HOME=/usr/java/jdk1.8.0_171-amd64/"
+      
+       - lineinfile:
+             path: "/root/.bashrc"
+             line: "export PATH=/usr/java/jdk1.8.0_171-amd64/bin/:$PATH"
+
+       - copy: 
+           src: "/etc/hadoop/core-site.xml"
+           dest: "/etc/hadoop/core-site.xml"
+       - replace: 
+           path: "/etc/hadoop/core-site.xml"
+           regexp: "192.168.43.64"
+           replace: "master_ip" 
+- hosts: master_ip
+  tasks:
+      - file:
+           path: "/master"
+           state: directory
+           mode: 0755
+      - copy:
+           src: "/etc/hadoop/hdfs-site.xml"
+           dest: "/etc/hadoop/hdfs-site.xml"
+     - replace: 
+           path: "/etc/hadoop/hdfs-site.xml"
+           regexp: "dfs.data.dir"
+           replace: "dfs.name.dir"
+     - replace: 
+           path: "/etc/hadoop/hdfs-site.xml"
+           regexp: "/data"
+           replace: "/master" 
+
+- hosts: slaves
+  tasks:
+      - file:
+           path: "/data"
+           state: directory
+           mode: 0755
+      - copy:
+           src: "/etc/hadoop/hdfs-site.xml"
+           dest: "/etc/hadoop/hdfs-site.xml"
+
+     
+- hosts: master_ip
+  tasks: 
+      - command: "hadoop namenode -format"
+      - command: "hadoop-daemon.sh start namenode"
+
+- hosts: slaves
+  tasks: 
+      
+      - command: "hadoop-daemon.sh start datanode"
+

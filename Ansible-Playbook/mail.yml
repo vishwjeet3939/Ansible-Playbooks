@@ -1,0 +1,15 @@
+- hosts: localhost
+  tasks: 
+        - name: "Sthuti"
+          mail: 
+                        host: "smtp.gmail.com"
+                        port: "587"
+                        username: "sender@gmail.com"
+                        password: "pswd"
+                        to: "receiver@gmail.com"
+                        subject: "Test"
+                        body: "Ansible Test Successful"
+                        attach: "path_of_file_to_attach"
+          delegate_to: localhost
+
+        

@@ -1,0 +1,25 @@
+- hosts: localhost
+  tasks:
+        - name: Generate SSH key
+          shell: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
+          args:
+                creates: /root/.ssh/id_rsa
+- hosts: all
+  tasks:
+        - name: install openSSH
+          package: 
+                name: "openssh-server"
+                state: present
+        - name: restart
+          service: 
+                name: "sshd"
+                state: restarted
+                enabled: yes
+        - name: ssh copy id
+          authorized_key:
+                user: user_name
+                state: present
+                key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+                path: /etc/ssh/authorized_keys/user_name
+                manage_dir: False
+                validate_certs: False

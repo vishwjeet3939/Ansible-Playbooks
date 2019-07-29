@@ -1,0 +1,12 @@
+- hosts: localhost
+  vars_prompt:
+    - name: src
+      prompt: "Enter source location "
+      private: no
+    - name: dest
+      prompt: "Enter destination location"
+      private: no   
+  tasks: 
+    - copy : 
+        src: "{{ src }}"
+        dest: "{{ dest }}"

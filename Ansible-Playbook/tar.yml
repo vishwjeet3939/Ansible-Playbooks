@@ -1,0 +1,19 @@
+- hosts: Production
+  tasks:
+     - name: archive
+       archive:
+         path: "/etc/httpd"
+         dest: "/root/production.tar.bz2"
+         format: bz2
+       tags: 
+          - nogroup1
+
+- hosts: Backup
+  tasks:
+     - name: archive
+       archive:
+         path: "/etc/magic"
+         dest: "/root/fileTar.tar.bz2"
+         format: bz2
+       tags: 
+          - nogroup2

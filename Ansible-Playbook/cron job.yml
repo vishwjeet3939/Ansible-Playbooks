@@ -1,0 +1,22 @@
+- hosts: localhost
+  vars_prompt:
+
+      - name: x
+        prompt: "enter the command "
+        private: no
+      - name: hour
+        prompt: "enter the hour "
+        private: no
+      - name: minutes
+        prompt: "enter the minutes "
+        private: no
+
+    
+  tasks:
+    - cron:
+        user: root
+
+        job: "{{x}}"
+        hour: "{{hour}}"
+        minute: "{{minutes}}"
+        

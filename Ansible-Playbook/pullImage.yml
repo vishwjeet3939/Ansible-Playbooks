@@ -1,0 +1,7 @@
+- hosts: localhost
+  tasks: 
+     - name: Pull image
+       docker_image:
+            name: Image_to_pull
+            tag: latest 
+            pull: yes

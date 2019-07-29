@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+    - mount: 
+        path: mount_point
+        src: /dev/cdrom
+        fstype: iso9660
+        opts: defaults
+        state: mounted
+
+    - yum_repository:
+        name: local
+        description: local dvd repository
+        baseurl: "file://mount_point"
+        enabled: yes
+        gpgcheck: no

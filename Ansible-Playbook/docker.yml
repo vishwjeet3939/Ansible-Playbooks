@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks: 
+        - docker_container:
+                        name: "docker_name"
+                        image: "centos"
+                        state: started
+                        restart: yes
+                        interactive: yes
+                        tty: yes
+                       
+                        
+
+                                
+                 

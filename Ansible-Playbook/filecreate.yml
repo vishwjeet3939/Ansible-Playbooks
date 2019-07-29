@@ -1,0 +1,10 @@
+- hosts: localhost
+  vars_prompt:
+        - name: y
+          prompt: "enter the file name"
+          private: no
+
+  tasks:
+      - file:
+           path: path_of_file_creation/"{{y}}"
+           state: touch

@@ -1,0 +1,26 @@
+- hosts: all
+  vars_prompt:
+      - name: username
+        prompt: "Username"
+        private: no
+
+      - name: password
+        prompt: "Password"
+        private: yes
+        encrypt: "sha512_crypt"
+        confirm: yes
+        salt_size: 7
+
+      - name: question
+        prompt: "Do you wish to give sudo power to user? Enter 1 for Yes and  2 for NO:"
+        private: no
+  tasks:
+        - user:
+             username: "{{username}}"
+             password: "{{password}}"
+
+        - name: if 1
+          lineinfile:
+           path: /etc/sudoers
+           line: "{{username}}   ALL(ALL)     NOPASSWD: ALL"
+          when: question  == "1" 

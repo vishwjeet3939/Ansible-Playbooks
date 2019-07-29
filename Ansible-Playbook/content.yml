@@ -1,0 +1,5 @@
+- hosts: all
+  tasks:
+     - copy:
+         content: "Hello {{ansible_virtualization_role }}"
+         dest: "dest_path"

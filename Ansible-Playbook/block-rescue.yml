@@ -1,0 +1,11 @@
+- hosts: localhost
+  tasks:
+     - block: 
+         - copy:
+              src: "source_file_path"
+              dest: "Destination_path"
+     - rescue: 
+         - copy:
+              content: "You have to copy it manually"
+              dest: "dest_path"
+              

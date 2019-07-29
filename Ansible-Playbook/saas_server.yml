@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+        - name: "data container"
+          docker_container: 
+                name: "container_name"
+                image: "image_name:tag"
+                state: started      
+                interactive: yes
+                tty: yes
+                volumes:
+                   - /tmp/.X11-unix:/tmp/.X11-unix
+                env_file:
+                   - $DISPLAY: :0
+                   

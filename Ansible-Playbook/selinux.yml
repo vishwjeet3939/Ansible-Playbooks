@@ -1,0 +1,21 @@
+- hosts: all
+  vars_prompt:
+    - name: Selinux 
+      prompt: "State of selinux : (ON/ALLOW/OFF)"
+      private: no
+  tasks:
+    - selinux:
+        policy: targeted
+        state: permissive
+      when: Selinux == "ALLOW"
+      
+    - selinux:
+        policy: targeted
+        state: enforcing
+      when: Selinux == "ON"
+    - selinux:
+        policy: targeted
+        state: disabled
+      when: Selinux == "OFF"
+    - name: reboot
+      command: reboot

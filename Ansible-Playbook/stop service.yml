@@ -1,0 +1,20 @@
+- hosts: all
+  vars_prompt:
+        - name: i
+          prompt: "enter the service"
+          private: no
+        - name: x
+          prompt: "Should the service be persistent (y/n)"
+          private: no
+
+  tasks:
+      - systemd:
+            name: "{{i}}"
+            state: stopped
+            enabled: yes
+        when: x == "y"
+      - systemd:
+            name: "{{i}}"
+            state: stopped
+            enabled: no
+        when: x == "n"

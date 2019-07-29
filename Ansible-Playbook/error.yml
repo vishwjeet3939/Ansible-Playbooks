@@ -1,0 +1,28 @@
+- hosts: localhost
+  tasks: 
+     - package: 
+          name: ex407-server
+          state: present
+       register: x
+       ignore_errors: true
+
+     - service: 
+          name: ex407-server
+          state: present
+       register: y
+       ignore_errors: yes
+     - debug:
+          msg: "{{x}}"
+     - debug:
+           msg: "{{y}}"
+     - debug:
+          msg: "Installation Failed"
+       when: y.failed != false
+
+     - debug:
+          msg: "Service Failed"
+       when: x.failed != false 
+  
+     - debug:
+          msg: "Playbook was unsuccessful"
+       when: x.failed = true or y.failed != true

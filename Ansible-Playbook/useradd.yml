@@ -1,0 +1,12 @@
+- hosts: all
+  vars_prompt: 
+   - name: passwd
+     prompt: "enter paswd"
+     private: yes
+     encrypt: "sha512_crypt"
+     confirm: yes
+  tasks:
+      - user: 
+         name: user_name
+         password: "{{ passwd }}"
+         

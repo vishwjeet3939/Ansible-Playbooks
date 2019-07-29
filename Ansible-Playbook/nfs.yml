@@ -1,0 +1,21 @@
+- hosts: all
+  tasks: 
+    - package:
+         name: "nfs-utils"
+         state: present
+    - copy:
+         src: "directory_path_to_export"
+         dest: "dest_path"
+    - lineinfile:
+         path: "/etc/exports"
+         line: "dir_name ip_names_to_provide_access"
+         create: no
+    - service: 
+         name: "nfs"
+         state: started
+         enabled: yes
+    - firewalld:
+         state: enabled
+         service: "nfs"
+         immediate: yes
+         permanent: yes
